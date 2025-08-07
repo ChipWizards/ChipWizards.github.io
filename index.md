@@ -1,5 +1,3 @@
-Hello World
-
 ### Summary
 
 The 2025 SAHA SAO consists of two major components: 
