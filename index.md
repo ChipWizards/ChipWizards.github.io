@@ -10,16 +10,19 @@ The LED driver operates completely independently of the processor with the sole 
 
 The average power consumption of the SAO is 6.5 mA, giving around 30 hours of run time with a 200 mAh CR2032 coin cell battery.
 
-INSERT PICTURES OF THE SAO HERE
+![SAO FRONT](pics/SAO_FRONT.jpg)
+
+![SAO BACK](pics/SAO_BACK.jpg)
 
 The [github repo](https://github.com/ChipWizards/SAHA-SAO) contains:
 - Schematics showing how the SAO is wired
 - The TI assembler to build programs for the LP55231 LED Driver
 - Source code for the SAO firmware
+- Datasheets for the LED Driver and nRF Module
 
 ### Proximity Feature
 
-The proximity feature works with each SAO simultaneously broadcasting and receiving beacons.
+The proximity feature works by each SAO simultaneously broadcasting and receiving beacons.
 The PWM duty cycle of D1 (the soldering iron) is determined by the RSSI of received beacons.
 If there are multiple beaconing SAOs being received D1 will appear to switch between multiple brightness settings, this is an intentional choice to help represent multiple beacons being received.
 
@@ -36,8 +39,8 @@ The SAO header in the center follows the SAO standard with the addition of TX an
 ### Debugging
 
 Users wanting to flash custom firmware will need a debugger to do so.
-nRF prefers the JLink line of debuggers, these are going to be the most tightly integrated debuggers for this set up.
-The Segger JLink Edu Mini will be the most effective.
+The nRF SDK is built around the JLink line of debuggers from Segger, these are going to be the most tightly integrated debuggers for this set up.
+The Segger JLink Edu Mini will be the most cost effective, costing $60 instead of several hundred.
 
 The best places to buy these would be here:
 - [Mouser](https://www.mouser.com/ProductDetail/Segger-Microcontroller/8.08.91?qs=gt1LBUVyoHmQKgW9PvZ%2FwQ%3D%3D) (Fastest)
@@ -52,20 +55,22 @@ The [nRF academy](https://academy.nordicsemi.com/courses/nrf-connect-sdk-fundame
 It's worth walking through Lesson 1 to set up the SDK and learn how to build examples.
 Beyond Lesson 1 is a good primer for developing firmware for nRF devices but the later lessons are not required reading for tinkering with the SAO.
 
+Assuming the nRF academy instructions have been followed: 
 To load in the firmware project open the `nRF connect plugin`, select `Open an existing application` and navigate to `software/saha_sao` inside the [SAHA SAO repo](https://github.com/ChipWizards/SAHA-SAO).
 
 Next, select `add build configuration` under the `APPLICATION` pane and select the `Build for nRF52 DK nRF52832 (build/saha_sao)` CMake preset is highlighted then select `Generate and build`.
 From there it should be possible to build the project!
 
 > **WARNING**  
-> `Base configuration files` should be `prj.conf`
+> `Base configuration files` field should be `prj.conf`
 
 ### Writing programs for the LED Driver
 
 The LP55231 LED Driver has 3 lighting engines which enable various lighting effects.
+Currently the SAO only uses the first engine, but it's possible to use all 3 if desired.
 To write programs for the assembly engines a user will have to use the [TI Assembler from within the SAHA-SAO repo](https://github.com/ChipWizards/SAHA-SAO/tree/main/software/led_driver).
 
-The following resources were used during SAO development to write the animations:
+The following resources were used during SAO development to write the animations, these resources contain tutorials on how to write assembly for the engines and how the engines themselves function:
 - [Sparkfun Guide](https://learn.sparkfun.com/tutorials/lp55231-breakout-board-hookup-guide/)
 - [TI Eval Kit Guide](https://github.com/ChipWizards/SAHA-SAO/blob/main/datasheets/LP55231_EVAL_BOARD.pdf)
 
