@@ -57,7 +57,7 @@ To load in the firmware project open the `nRF connect plugin`, select `Open an e
 Next, select `add build configuration` under the `APPLICATION` pane and select the `Build for nRF52 DK nRF52832 (build/saha_sao)` CMake preset is highlighted then select `Generate and build`.
 From there it should be possible to build the project!
 
-> [!WARNING]
+> **WARNING**
 > `Base configuration files` should be `prj.conf`
 
 ### Writing programs for the LED Driver
@@ -77,4 +77,8 @@ Upon viewing this file it is clear that the current `led_program` is directly de
 To update the animation a user must change `led_program` to mirror their own generated `.lst` file.
 
 The LED engine also has its own entry point and program counter so it's crucial that these are updated whenever changes to code are made.
-Changes must be made to the calls to `set_engine_entry` and `set_engine_pc` within the `pled_init` function in [src/main.c](https://github.com/ChipWizards/SAHA-SAO/blob/65f4098d620d144a2968196b77de80caab020651/software/saha_sao/src/main.c#L458)
+Changes must be made to the calls to `set_engine_entry` and `set_engine_pc` within the `pled_init` function in [src/main.c](https://github.com/ChipWizards/SAHA-SAO/blob/65f4098d620d144a2968196b77de80caab020651/software/saha_sao/src/main.c#L458).
+Both `set_engine_entry` and `set_engine_pc` **must** point to the first valid instruction inside of the animation program.
+
+> **WARNING**
+> It is crucial to update `led_program`, `set_engine_entry` and `set_engine_pc` whenever making changes to the animation program.
